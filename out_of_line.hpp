@@ -2,7 +2,7 @@
 #define OutOfLine
 
 #include <map>
-#include <iostream>
+#include <tuple>
 
 template<typename HotType, typename ColdType>
 class out_of_line : public HotType {
@@ -38,6 +38,24 @@ public:
         return *this;
     }
 
+    template<size_t Idx>
+    auto &get() & {
+        if constexpr(Idx == 0) { return static_cast<HotType &>(*this); }
+        if constexpr(Idx == 1) { return cold(); }
+    }
+
+    template<size_t Idx>
+    auto &get() const& {
+        if constexpr(Idx == 0) { return static_cast<HotType const &>(*this); }
+        if constexpr(Idx == 1) { return cold(); }
+    }
+
+    template<size_t Idx>
+    auto &&get() && {
+        if constexpr(Idx == 0) { return static_cast<HotType &&>(*this); }
+        if constexpr(Idx == 1) { return std::move(cold()); }
+    }
+
 
     ColdType &cold() {
         return cold_storage[this];
@@ -50,5 +68,18 @@ public:
 
 template<typename HotType, typename ColdType>
 std::map<HotType const *, ColdType> out_of_line<HotType, ColdType>::cold_storage;
+
+
+namespace std {
+
+    template <typename HotType, typename ColdType>
+    struct tuple_size<out_of_line<HotType, ColdType>> : std::integral_constant<size_t, 2> { };
+
+    template <typename HotType, typename ColdType>
+    struct tuple_element<0, out_of_line<HotType, ColdType>> { using type = HotType; };
+
+    template <typename HotType, typename ColdType>
+    struct tuple_element<1, out_of_line<HotType, ColdType>> { using type = ColdType; };
+}
 
 #endif // OutOfLine
