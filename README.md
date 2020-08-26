@@ -34,6 +34,7 @@ without creating a new class, just create a new instance of template.
 using example_t = out_of_line<std::string, std::string>;
 // ...
 example_t a("a_hot", "a_cold");
+std::cout << a << ' ' << a.cold() << std::endl;
 ```
 
 For examples how to create a new class using OOL patter, look to a file with example 2.
