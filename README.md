@@ -19,10 +19,12 @@ To get cold data, call a cold member function.
 
 In that implementation I decided that:
 - Every pair *<HotType, ColdType>* has different map, even that it wold be enough to
-    have different map for every different ColdType (or even on map for all types, with some pointer magic).
+    have different map for every different ColdType (or even one map for all cold types, with some pointer magic).
 - I use std::map, so access time to cold data is logarithmical.
 - OOL class inherits from HotType.
 - There is support for a structured binding declaration [hot, cold].
+- There is no member function "hot", as I don't see a good use for it, other than consistency
+    and rare situations with overwritten functions. (I'm thinking about changing it.)
 
 # Examples
 
