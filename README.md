@@ -5,6 +5,8 @@ and keeping only often used class members in cache, with zero memory overhead.
 You may want to use it when in your code there is an array with many
 objects, but you don't need all fields in the object for the whole time.
 
+You can find the whole implementation in [out_of_line.hpp](/out_of_line.hpp).
+
 # Description
 The idea if very simple, if you can split the class into two classes: hot and cold.
 - Hot: often used members.
@@ -23,8 +25,8 @@ In that implementation I decided that:
 - I use std::map, so access time to cold data is logarithmical.
 - OOL class inherits from HotType.
 - There is support for a structured binding declaration [hot, cold].
-- There is no member function "hot", as I don't see a good use for it, other than consistency
-    and rare situations with overwritten functions. (I'm thinking about changing it.)
+- There is member function "hot" for consistency. Helpful with fundamental types.
+- There is a support for fundamental types, use wrapper from the second header.
 
 # Examples
 
