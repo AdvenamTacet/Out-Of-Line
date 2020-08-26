@@ -38,14 +38,14 @@ For examples how to create a new class using OOL patter, look to a file with exa
 
 You can also use structured binding declaration.
 ```cpp
-    using example_t = out_of_line<std::string, std::string>;
+using example_t = out_of_line<std::string, std::string>;
+// ...
+std::vector<example_t> objs;
+// ...
+for(auto &[hot, cold] : objs) {
     // ...
-    std::vector<example_t> objs;
-    // ...
-    for(auto &[hot, cold] : objs) {
-        // ...
-    }
+}
 ```
 
 
-*The idea is based on a [blog post](https://blog.headlandstech.com/2018/08/15/outofline-a-memory-locality-pattern-for-high-performance-c/), describing OOL pattern.*
+*The above code is based on a idea from [blog post](https://blog.headlandstech.com/2018/08/15/outofline-a-memory-locality-pattern-for-high-performance-c/), describing OOL pattern.*
